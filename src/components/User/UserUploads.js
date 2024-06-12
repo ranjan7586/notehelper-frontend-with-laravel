@@ -62,7 +62,7 @@ const UserUploads = () => {
                         <h1 className="contact_taital">Your Uploads</h1>
                         <div className="bulit_icon"><img src="Assets/images/bulit-icon.png" /></div>
                     </div>
-                    <div className='container-fluid' m-3 p-3>
+                    <div className='container-fluid m-3 p-3' >
                         <div className='row'>
                             <div className='col-md-3 mt-4 mb-5'>
                                 <UserMenu />

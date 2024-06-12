@@ -23,17 +23,17 @@ const UpdateProduct = () => {
     //get single note
     const getSingleNote = async () => {
         try {
-            const { data } = await axios.get(`/api/v1/notes/get-a-note/${params.slug}`)
-            setName(data.note.name)
+            console.log("first,",params)
+            const { data } = await axios.get(`/api/v1/get-note-details/${params.slug}`)
             console.log(data)
-            setId(data.note._id)
+            setName(data.note.name)
+            setId(data.note.id)
             setAuthor(data.note.author)
             setDescription(data.note.description)
-            setDomain(data.note.domain._id)
+            setDomain(data.note.domain_id)
         } catch (error) {
             console.log(error)
             toast.error(error.message)
-
         }
     }
     useEffect((
@@ -57,9 +57,12 @@ const UpdateProduct = () => {
         }
     };
 
-    useEffect(() => {
+    useEffect(() => {   
         getAllDomains();
     }, []);
+    useEffect(() => {
+        console.log(domains);
+    }, [domains]);
 
     // // Handle domain selection
     // const handleDomainSelect = (selectedOption) => {
@@ -67,12 +70,12 @@ const UpdateProduct = () => {
     //     console.log(selectedOption.value);
     // };
     // Get the domain object for the selected domain ID
-    const selectedDomain = domains.find((d) => d._id === domain);
-    console.log(selectedDomain)
+    const selectedDomain = domains.find((d) => d.id === domain);
+    console.log(domains)
     // // Transform domains data for react-select
     const selectOptions = domains.map((c) => ({
-        value: c._id,
-        label: c.name,
+        value: c.id,
+        label: c.domain_name,
     }));
     //create note
     const handleUpdate = async (e) => {

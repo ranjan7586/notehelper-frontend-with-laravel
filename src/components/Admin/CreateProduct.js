@@ -37,7 +37,7 @@ const CreateProduct = () => {
     // Handle domain selection
     const handleDomainSelect = (selectedOption) => {
         setDomain(selectedOption);
-        console.log(selectedOption.value);
+        console.log(selectedOption);
     };
 
     // Transform domains data for react-select
@@ -52,12 +52,12 @@ const CreateProduct = () => {
         try {
             const noteValues = new FormData();
             noteValues.append("name", name);
-            noteValues.append("domain", domain.value);
+            noteValues.append("domain_id", domain.value);
             noteValues.append("author", author);
             noteValues.append("description", description);
             noteValues.append("image", image);
-            noteValues.append("thenote", thenote);
-            const { data } = await axios.post("/api/v1/notes/create-note", noteValues);
+            noteValues.append("note_content", thenote);
+            const { data } = await axios.post("/api/v1/create-note", noteValues);
             console.log(data)
             if (data?.success) {
                 toast.success(`${name} is Created`);

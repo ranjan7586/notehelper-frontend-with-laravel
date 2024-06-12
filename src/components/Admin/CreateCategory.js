@@ -87,7 +87,7 @@ const CreateCategory
                             <h1 className="contact_taital">Create Domains</h1>
                             <div className="bulit_icon"><img src="Assets/images/bulit-icon.png" /></div>
                         </div>
-                        <div className='container-fluid' m-3 p-3>
+                        <div className='container-fluid m-3 p-3' >
                             <div className='row'>
                                 <div className='col-md-3 mt-4 mb-5'>
                                     <AdminMenu />
@@ -108,20 +108,20 @@ const CreateCategory
                                             </thead>
                                             <tbody>
                                                 {domains?.map((c) => (
-                                                    <>
-                                                        <tr>
-                                                            <td key={c.id}>{c.domain_name}</td>
-                                                            <td><button className='btn btn-primary ms-2' onClick={() => { setVisible(true); setUpdatedName(c.domain_name); setSelected(c) }}>Edit</button></td>
-                                                            <td><button className='btn btn-danger ms-2' onClick={() => { handleDelete(c.id) }}>Delete</button></td>
-                                                        </tr>
-                                                    </>
+
+                                                    <tr key={c.id}>
+                                                        <td >{c.domain_name}</td>
+                                                        <td><button className='btn btn-primary ms-2' onClick={() => { setVisible(true); setUpdatedName(c.domain_name); setSelected(c) }}>Edit</button></td>
+                                                        <td><button className='btn btn-danger ms-2' onClick={() => { handleDelete(c.id) }}>Delete</button></td>
+                                                    </tr>
+
                                                 ))}
                                             </tbody>
                                         </table>
                                     </div>
                                     {/* <h1>Admin Email : {auth?.user?.email}</h1> */}
                                 </div>
-                                    <Modal onCancel={() => setVisible(false)} footer={null} visible={visible}>
+                                    <Modal onCancel={() => setVisible(false)} footer={null} open={visible}>
                                         <DomainForm value={updatedName} setValue={setUpdatedName} handleSubmit={handleUpdate} />
                                     </Modal>
                                 </div>

@@ -8,6 +8,22 @@ import SearchInput from '../Form/SearchInput';
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
+  const [imageUrls, setImageUrls] = useState({});
+  const [noteUrls, setNoteUrls] = useState({});
+
+  // Lifecycle method
+  useEffect(() => {
+    getAllNotes();
+  }, []);
+
+  useEffect(() => {
+    notes.forEach((note) => {
+      imageUrl(note.id);
+    });
+    notes.forEach((note) => {
+      handleDownload(note.id);
+    });
+  }, [notes]);
 
   // Get all notes
   const getAllNotes = async () => {
@@ -20,46 +36,41 @@ const Notes = () => {
     }
   };
   const imageUrl = async (id) => {
-    console.log(id)
     try {
       const { data } = await axios.get(`/api/v1/note-image/${id}`);
-      console.log(data);
-      return data.data.url;
+      setImageUrls((prev) => ({ ...prev, [id]: data.url }));
+      return "hi";
     } catch (error) {
-
+      console.log(error);
     }
   }
-  // Lifecycle method
-  useEffect(() => {
-    getAllNotes();
-  }, []);
 
   // Function to handle note download
-  const handleDownload = async (noteId) => {
-    // Implement the download logic here
+  const handleDownload = async (note_id) => {
     try {
-      const response = await axios.get(`/api/v1/notes/note/${noteId._id}`, {
-        responseType: 'blob',
-      });
+      const { data } = await axios.get(`/api/v1/get-note/${note_id}`);
+      console.log(data);
+      setNoteUrls((prev) => ({ ...prev, [note_id]: data.noteurl }));
+
 
       // Create a temporary download link
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `${noteId.name}.pdf`);
-      document.body.appendChild(link);
+      // const url = window.URL.createObjectURL(new Blob([response.data]));
+      // const link = document.createElement('a');
+      // link.href = url;
+      // link.setAttribute('download', `${note}.pdf`);
+      // document.body.appendChild(link);
 
-      // Trigger the download
-      link.click();
+      // // Trigger the download
+      // link.click();
 
-      // Clean up the temporary link
-      link.parentNode.removeChild(link);
+      // // Clean up the temporary link
+      // link.parentNode.removeChild(link);
     } catch (error) {
       console.error('Error downloading note:', error);
       toast.error('An error occurred while downloading the note');
     }
     // You can use the noteId to fetch the note and initiate the download
-    console.log(`Download note with ID: ${noteId}`);
+    console.log(`Download note with ID: ${note_id}`);
   };
 
   return (
@@ -87,14 +98,14 @@ const Notes = () => {
                         <div className='note-card mt-3 p-2'>
                           <Link to={`/dashboard/admin/note/${p.id}`}>
                             <div className='note_img'>
-                              <img className='note-image' src={imageUrl(p.id)} alt={p.name} />
+                              <img className='note-image' src={imageUrls[p.id]} alt={p.name} />
                             </div>
                             <h3 className='types_text'>{p.name}</h3>
                             <p style={{ color: "#1FD780", fontWeight: "bold" }} className='looking_text'>{p.domain_name}</p>
                             <p className='looking_text'>{p.description.substring(0, 20)}</p>
                           </Link>
                           <div className='read_bt'>
-                            <a onClick={() => handleDownload(p)}>Download</a>
+                            <a href={noteUrls[p.id]}>Download</a>
                           </div>
                         </div>
                       </div>

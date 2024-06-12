@@ -14,7 +14,7 @@ const AdminDashboard = () => {
                         <h1 className="contact_taital">Admin Pannel</h1>
                         <div className="bulit_icon"><img src="Assets/images/bulit-icon.png" /></div>
                     </div>
-                    <div className='container-fluid' m-3 p-3>
+                    <div className='container-fluid m-3 p-3' >
                         <div className='row'>
                             <div className='col-md-3 mt-5'>
                                 <AdminMenu />
